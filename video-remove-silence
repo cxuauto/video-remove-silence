@@ -22,6 +22,7 @@ parser.add_argument('--sublinear', type=float, default=0, help='duration subline
 parser.add_argument('--linear', type=float, default=0.1, help='duration linear transform factor')
 parser.add_argument('--save-silence', type=str, help='filename for saving silence')
 parser.add_argument('--recalculate-time-in-description', type=str, help='path to text file')
+parser.add_argument('--codec', type=str, default="libx265", help='ffmpeg codec library')
 args = parser.parse_args()
 
 def find_silences(filename):
@@ -298,7 +299,7 @@ decoder.terminate()
 
 name, extension = os.path.splitext(args.path)
 command = [ 'ffmpeg', '-f', 'mp4', '-i', video_track.name, '-f', 'wav', '-i', audio_track.name ]
-command += [ '-c:v', 'libx265', '-map', '0:v:0', '-map', '1:a:0', '-y', '{}_no_slience{}'.format(name, extension) ]
+command += [ '-c:v', args.codec, '-map', '0:v:0', '-map', '1:a:0', '-y', '{}_no_slience{}'.format(name, extension) ]
 subprocess.run(command)
 
 os.unlink(audio_track.name)
