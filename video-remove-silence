@@ -128,6 +128,10 @@ def extract_audio(input_filename, output_filename):
 audio_file = tempfile.NamedTemporaryFile(delete=False)
 audio_file.close()
 
+print(f'''Setup:
+codec-lib: {args.codec}
+''')
+
 print('Extracting audio...')
 extract_audio(args.path, audio_file.name)
 
