@@ -204,13 +204,13 @@ if args.recalculate_time_in_description:
         description_file.write(description)
 
 print('Processing {} frames...'.format(frames))
-command = [ 'ffmpeg', '-i', args.path, '-f', 'image2pipe', '-pix_fmt', 'rgb24', '-vcodec', 'rawvideo', '-' ]
+command = [ 'ffmpeg', '-hide_banner', '-i', args.path, '-f', 'image2pipe', '-pix_fmt', 'rgb24', '-vcodec', 'rawvideo', '-' ]
 decoder = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
 
 video_track = tempfile.NamedTemporaryFile(delete=False)
 video_track.close()
 command = [ 'ffmpeg', '-framerate', str(frame_rate), '-s', '{}x{}'.format(width, height), '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-i', '-' ]
-command += [ '-c:v', args.codec, '-f', args.vext , '-pix_fmt', 'yuv420p', '-y', video_track.name ] # AFTER c:v PUT , '-f', 'mp4'
+command += [ '-c:v', args.codec, '-f', args.vext , '-pix_fmt', 'yuv420p', '-y', video_track.name ] # AFTER c:v PUT , '-f', 'mp4' | '-c:v', args.codec,
 encoder = subprocess.Popen(command, stdin=subprocess.PIPE)
 
 audio_track = tempfile.NamedTemporaryFile(delete=False)
