@@ -23,6 +23,7 @@ parser.add_argument('--linear', type=float, default=0.1, help='duration linear t
 parser.add_argument('--save-silence', type=str, help='filename for saving silence')
 parser.add_argument('--recalculate-time-in-description', type=str, help='path to text file')
 parser.add_argument('--codec', type=str, default="libx265", help='ffmpeg codec library')
+parser.add_argument('--vext', type=str, default="mp4", help='video extention')
 args = parser.parse_args()
 
 def find_silences(filename):
@@ -209,7 +210,7 @@ decoder = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.DE
 video_track = tempfile.NamedTemporaryFile(delete=False)
 video_track.close()
 command = [ 'ffmpeg', '-framerate', str(frame_rate), '-s', '{}x{}'.format(width, height), '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-i', '-' ]
-command += [ '-c:v', args.codec, '-pix_fmt', 'yuv420p', '-y', video_track.name ] # AFTER c:v PUT , '-f', 'mp4'
+command += [ '-c:v', args.codec, '-f', args.vext , '-pix_fmt', 'yuv420p', '-y', video_track.name ] # AFTER c:v PUT , '-f', 'mp4'
 encoder = subprocess.Popen(command, stdin=subprocess.PIPE)
 
 audio_track = tempfile.NamedTemporaryFile(delete=False)
