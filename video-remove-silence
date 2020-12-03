@@ -209,7 +209,7 @@ decoder = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.DE
 
 video_track = tempfile.NamedTemporaryFile(delete=False)
 video_track.close()
-command = [ 'ffmpeg', '-framerate', str(frame_rate), '-s', '{}x{}'.format(width, height), '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-i', '-' ]
+command = [ 'ffmpeg', '-hide_banner', '-framerate', str(frame_rate), '-s', '{}x{}'.format(width, height), '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-i', '-' ]
 command += [ '-c:v', args.codec, '-f', args.vext , '-pix_fmt', 'yuv420p', '-y', video_track.name ] # AFTER c:v PUT , '-f', 'mp4' | '-c:v', args.codec,
 encoder = subprocess.Popen(command, stdin=subprocess.PIPE)
 
