@@ -304,7 +304,7 @@ decoder.terminate()
 
 name, extension = os.path.splitext(args.path)
 command = [ 'ffmpeg', '-hide_banner', '-f', 'mp4', '-i', video_track.name, '-f', 'wav', '-i', audio_track.name ]
-command += [ '-movflags', 'frag_keyframe+empty_moov', '-c:v', args.codec, '-map', '0:v:0', '-map', '1:a:0', '-y', '{}_no_slience{}'.format(name, extension) ]
+command += [ '-movflags', 'faststart', '-c:v', args.codec, '-map', '0:v:0', '-map', '1:a:0', '-y', '{}_no_slience{}'.format(name, extension) ]
 subprocess.run(command)
 
 os.unlink(audio_track.name)
